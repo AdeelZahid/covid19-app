@@ -1,11 +1,46 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import {fetchDailyData} from '../../api'
+import {Line, Bar} from 'react-chartjs-2';
+
+import styles from './Charts.module.css'
 
 const Chart = () => {
+    const [dailyData, setDailyData] = useState({});
+
+    useEffect( ()=> {
+        const fetchApi = async()=> {
+            const dailyData = await fetchDailyData();
+            setDailyData(dailyData)
+        }
+
+        fetchApi()
+    })
+
+    const lineChart = (
+        dailyData[0]?(<Line 
+            data={{labels: dailyData.map(({date}) => date),
+             datasets: [{
+                 data: dailyData.map(({confirmed}) => confirmed),
+                 label: 'infected',
+                 borderColor: '#3333ff',
+                 fill: true
+                
+             },
+            {data: dailyData.map(({deaths}) => deaths),
+            label: 'deaths',
+            borderColor: '#3333ff',
+            backgroundColor: 'rgba(255, 0, 0, 0.5)',
+            fill: true
+           }
+            ]}}
+        />):null
+    );
+ 
     return (
-        <div>
-            <h1>Charts</h1>
+        <div className={styles.container}>
+           {lineChart}
         </div>
     )
 }
 
-export default Chart
+export default Chart 
