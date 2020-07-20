@@ -9,3 +9,18 @@ body{
     justify-content: space-around;
     flex-direction: column;
 }
+
+.image{
+    width: 30%;
+    margin: auto;
+}
+
+@media(max-width: 770px){
+    .container{
+        margin: 0 10px;
+    }
+    .image{
+        width: 80%;
+        margin: auto;
+    }
+}
